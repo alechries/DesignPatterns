@@ -19,9 +19,8 @@ class AbstractHandler(ABC):
 
 
 class ConcreteHandler(AbstractHandler):
-    _next_handler = None
-
     def __init__(self, handle_type: str):
+        self._next_handler = None
         self.__handle_type = handle_type
 
     def set_next_handler(self, handler: AbstractHandler):
