@@ -14,8 +14,8 @@ class AbstractHumanState(ABC):
         return self.__human
 
     @human.setter
-    def human(self, human: AbstractHuman) -> None:
-        self.__human = human
+    def human(self, new_human: AbstractHuman):
+        self.__human = new_human
 
     @abstractmethod
     def do(self):
@@ -27,16 +27,21 @@ class AbstractHuman:
         self._power = 100
 
     @property
+    def _state(self) -> AbstractHumanState:
+        return self.__state
+
+    @_state.setter
+    def _state(self, state: AbstractHumanState) -> None:
+        self.__state = state
+        self.__state.human = self
+
+    @property
     def power(self) -> int:
         return self._power
 
     @power.setter
     def power(self, power: int):
         self._power = power
-
-    @abstractmethod
-    def change_state(self, new_state: AbstractHumanState):
-        pass
 
     @abstractmethod
     def live(self):
@@ -49,12 +54,9 @@ class AbstractHuman:
 class ConcreteHuman(AbstractHuman):
     def __init__(self):
         super().__init__()
-        self._state = None
-        self.change_state(ConcreteFreezeState())
-
-    def change_state(self, new_state: AbstractHumanState):
-        self._state = new_state
-        self._state.human = self
+        init_state = ConcreteFreezeState()
+        init_state.human = self
+        self._state = init_state
 
     def live(self):
         self._state.do()
@@ -62,14 +64,15 @@ class ConcreteHuman(AbstractHuman):
 
 class ConcreteFreezeState(AbstractHumanState):
     def do(self):
-        print(f"Human freeze (power {self.human.power})")
+        self.human._state = ConcreteRunState()
+        self.human.live()
 
 
 class ConcreteRunState(AbstractHumanState):
     def do(self):
         if self.human.power < 70:
             print("Human can't run anymore")
-            self.human.change_state(new_state=ConcreteGoState())
+            self.human._state = ConcreteGoState()
             self.human.live()
             return
         self.human.power -= 10
@@ -80,7 +83,7 @@ class ConcreteGoState(AbstractHumanState):
     def do(self):
         if self.human.power < 40:
             print("Human can't go anymore")
-            self.human.change_state(new_state=ConcreteSitState())
+            self.human._state = ConcreteSitState()
             self.human.live()
             return
         self.human.power -= 5
@@ -92,7 +95,7 @@ class ConcreteSitState(AbstractHumanState):
         power = self.human.power
         if power < 20:
             print("Human can't sit anymore")
-            self.human.change_state(new_state=ConcreteSleepState())
+            self.human._state = ConcreteSleepState()
             self.human.live()
             return
         self.human.power -= 1
@@ -103,7 +106,7 @@ class ConcreteSleepState(AbstractHumanState):
     def do(self):
         if self.human.power > 100:
             print("Human can't sleep anymore")
-            self.human.change_state(new_state=ConcreteSitState())
+            self.human._state = ConcreteSitState()
             self.human.live()
             return
         self.human.power += 30
@@ -114,10 +117,6 @@ class ConcreteSleepState(AbstractHumanState):
 
 
 h = ConcreteHuman()
-h.live()  # Output: Human freeze (power 100)
-h.live()  # Output: Human freeze (power 100)
-h.change_state(ConcreteRunState())
-
 for i in range(30):
     sleep(0.2)
     h.live()
