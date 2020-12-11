@@ -14,7 +14,7 @@ class ConcreteEntity:
     def __deepcopy__(self, memodict=None):
         if memodict is None:
             memodict = {}
-        return self.__class__(deepcopy(self.your_list))
+        return self.__class__(self.your_list)
 
 
 # Using
@@ -40,7 +40,6 @@ entity_b.your_list[0] = 5
 print_entity(entity_a)  # Output entity_a: 4,3
 print_entity(entity_b)  # Output entity_b: 5,3
 
-# TODO - Проблема с DEEPCOPY
 print("DEEPCOPY")
 entity_a = deepcopy(entity_b)
 print_entity(entity_a)  # Output entity_a: 5,3
@@ -49,5 +48,5 @@ print_entity(entity_b)  # Output entity_b: 5,3
 print("CHANGE")
 entity_a.your_list[0] = 6
 entity_b.your_list[1] = 7
-print_entity(entity_a)  # Output entity_a: 6,3
-print_entity(entity_b)  # Output entity_b: 5,7
+print_entity(entity_a)  # Output entity_a: 6,7
+print_entity(entity_b)  # Output entity_b: 6,7
