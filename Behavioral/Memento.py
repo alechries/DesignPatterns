@@ -4,13 +4,13 @@ from typing import List
 # Abstract classes
 
 
-class AbstractMemento(ABC):
+class AbstractIntegerMemento(ABC):
     @abstractmethod
     def get_integer(self) -> int:
         pass
 
 
-class AbstractStorage(ABC):
+class AbstractIntegerStorage(ABC):
     @abstractmethod
     def get(self) -> int:
         pass
@@ -20,7 +20,7 @@ class AbstractStorage(ABC):
         pass
 
     @abstractmethod
-    def undo(self) -> AbstractMemento:
+    def undo(self) -> AbstractIntegerMemento:
         pass
 
     @abstractmethod
@@ -35,7 +35,7 @@ class AbstractStorage(ABC):
 # Concrete classes
 
 
-class ConcreteMemento(AbstractMemento):
+class ConcreteIntegerMemento(AbstractIntegerMemento):
     def __init__(self, state: int):
         self.__state = state
 
@@ -43,16 +43,16 @@ class ConcreteMemento(AbstractMemento):
         return self.__state
 
 
-class ConcreteStorage(AbstractStorage):
+class ConcreteIntegerStorage(AbstractIntegerStorage):
     def __init__(self, value: int):
-        self.__states: List[AbstractMemento] = [ConcreteMemento(value), ]
-        self.__current_state: AbstractMemento = ConcreteMemento(value)
+        self.__states: List[AbstractIntegerMemento] = [ConcreteIntegerMemento(value), ]
+        self.__current_state: AbstractIntegerMemento = ConcreteIntegerMemento(value)
 
     def get(self) -> int:
         return self.__current_state.get_integer()
 
     def set(self, value: int):
-        self.__current_state: AbstractMemento = ConcreteMemento(value)
+        self.__current_state: AbstractIntegerMemento = ConcreteIntegerMemento(value)
 
     def undo(self):
         if len(self.__states) > 0:
@@ -68,7 +68,7 @@ class ConcreteStorage(AbstractStorage):
 # Using
 
 
-storage: AbstractStorage = ConcreteStorage(value=0)
+storage: AbstractIntegerStorage = ConcreteIntegerStorage(value=0)
 print(storage.history())
 # Output: [0]
 print(storage.get())
