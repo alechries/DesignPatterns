@@ -75,9 +75,9 @@ def request_que(administration: AbstractAdministration, persons: List[Person]):
         administration.request(person)
 
 
-mediator = ConcreteEducationMediator()
-administration_a = ConcreteAdministrationA(mediator)
-administration_b = ConcreteAdministrationB(mediator)
+mediator: AbstractEducationMediator = ConcreteEducationMediator()
+administration_a: AbstractAdministration = ConcreteAdministrationA(mediator)
+administration_b: AbstractAdministration = ConcreteAdministrationB(mediator)
 
 request_que(
     administration=administration_a,
