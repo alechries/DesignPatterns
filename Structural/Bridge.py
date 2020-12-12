@@ -54,4 +54,3 @@ manager_a.operation()  # Output: Operation with manager A
 manager_a.worker = worker_b
 manager_a.operation()  # Output: Operation with manager A
 #                                Operation process with worker B
-

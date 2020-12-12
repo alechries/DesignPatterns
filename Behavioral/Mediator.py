@@ -102,4 +102,3 @@ request_que(
 # Sending Fiona (13 yo) to school
 # Request to the administration B
 # Sending Jon (50 yo) to work
-

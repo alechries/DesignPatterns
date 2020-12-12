@@ -84,5 +84,3 @@ branch.add(Leaf())
 tree.add(branch)
 
 print(tree.operation(), end="")  # Output: Branch(Branch(Leaf,Leaf),Branch(Leaf,Leaf,Leaf),Branch(Leaf))
-
-
