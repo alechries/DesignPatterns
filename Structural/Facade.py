@@ -2,6 +2,7 @@ import random
 
 # Concrete classes
 
+
 class ConcreteSending:
     def sending(self):
         pass
